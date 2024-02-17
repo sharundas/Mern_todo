@@ -35,6 +35,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+import todoRouter from './route/TodoRoute.js'
 
 dotenv.config();
 
@@ -51,6 +52,8 @@ mongoose.connect(process.env.MONGO_DB, { useNewUrlParser: true })
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
+
+app.use('/api/todo', todoRouter)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
