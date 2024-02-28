@@ -25,33 +25,28 @@ export const createTodo = async (req, res) => {
 };
 
 export const updateTodo = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const todo = await Todo.findById(id);
-    if (!todo) return res.status(404).json({ message: "Todo not found" });
-
-    if (req.body.title) todo.title = req.body.title;
-    if (req.body.description) todo.description = req.body.description;
-    if (req.body.completed !== undefined) todo.completed = req.body.completed;
-
-    const updatedTodo = await todo.save();
-    res.json(updatedTodo);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
+  Todo.findByIdAndUpdate(req.params.id, { text: req.body.text })
+    .then(() => res.json({ success: true }))
+    .catch((err) => console.log(err));
 };
+
+// export const deleteTodo = async (req, res) => {
+//   await Todo.findByIdAndDelete(req.params.id)
+//     .then(() => res.json({ success: true }))
+//     .catch((err) => console.log(err));
+// };
 
 export const deleteTodo = async (req, res) => {
-  const { id } = req.params;
-
   try {
-    const todo = await Todo.findById(id);
-    if (!todo) return res.status(404).json({ message: "Todo not found" });
-
-    await todo.deleteOne();
-    res.json({ message: "Todo deleted successfully" });
+    await Todo.findByIdAndDelete(req.params.id);
+    res.json({ success: true });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Error deleting todo:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
+
+
+// const _id = new ObjectId(req.params.id);
+
+// const deletedTodo = await Todo.deleteOne({ _id });

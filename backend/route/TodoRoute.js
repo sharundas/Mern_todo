@@ -4,11 +4,11 @@ import {createTodo, getAllTodos,deleteTodo, updateTodo, } from '../controllers/T
 
 const router = express.Router();
 
-
+// api/todo
 router.get('/', getAllTodos);
 router.post('/', createTodo);
 router.put('/:id', updateTodo);
-router.delete('/:id', deleteTodo);
+router.delete('/delete/:id', deleteTodo);
 
 export default router;
 
